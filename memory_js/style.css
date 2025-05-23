@@ -1,32 +1,93 @@
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f0f0f0;
-  }
-  
-  .game-board {
-    display: grid;
-    grid-template-columns: repeat(4, 100px);
-    gap: 10px;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .card {
-    width: 100px;
-    height: 100px;
-    background-color: #333;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    cursor: pointer;
-    user-select: none;
-  }
-  
-  .card.flipped {
-    background-color: #fff;
-    color: #000;
-  }
-  
+  margin: 0;
+  display: flex;
+  flex-direction: column; /* Disposizione verticale */
+  align-items: center; /* Centra gli elementi orizzontalmente */
+  background-color: #f0f0f0; /* Colore di sfondo */
+  font-family: Arial, sans-serif; /* Font leggibile */
+}
+
+h1 {
+  margin-top: 20px; /* Spazio sopra il titolo */
+  margin-bottom: 20px; /* Spazio sotto il titolo */
+  text-align: center;
+  color: #333; /* Colore del testo */
+}
+
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(1fr, 1fr)); /* Griglia responsiva */
+  gap: 5px; /* Spaziatura tra le carte */
+  width: 500px; /* Larghezza fissa del quadrato */
+  height: 500px; /* Altezza fissa del quadrato */
+  background-color: white; /* Sfondo del quadrato */
+  border: 2px solid #ccc; /* Bordo del quadrato */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Effetto ombra */
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.game-board div {
+  background-color: #f9f9f9; /* Colore delle carte */
+  border: 1px solid #ddd; /* Bordo delle carte */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+  aspect-ratio: 1 / 1; /* Mantiene i quadrati proporzionati */
+}
+
+.carta {
+  background-color: #ccc; /* Colore del retro della carta */
+  border: 1px solid #999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0; /* Nasconde il contenuto inizialmente */
+  cursor: pointer;
+  aspect-ratio: 1 / 1; /* Mantiene la forma quadrata */
+  transition: transform 0.3s ease, background-color 0.3s ease; /* Animazione */
+}
+
+.carta.girata {
+  background-color: #fff; /* Colore del fronte della carta */
+  font-size: 20px; /* Mostra il contenuto della carta */
+  font-weight: bold;
+  color: #333; /* Colore del testo */
+  transform: rotateY(360deg); /* Effetto di rotazione */
+}
+
+.carta.disabilitata {
+  background-color: #e0e0e0; /* Colore per le carte disabilitate */
+  cursor: default;
+  pointer-events: none; /* Disabilita il clic */
+}
+
+.counter {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #333;
+  text-align: center;
+}
+
+#overlay-vittoria {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8); /* Semi trasparente nero */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  display: none; /* Inizialmente nascosto */
+}
+
+#overlay-vittoria img {
+  max-width: 80%;
+  max-height: 80%;
+  border: 5px solid white;
+  border-radius: 10px;
+}
