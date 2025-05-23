@@ -1,6 +1,6 @@
 # Gioco del Memory
 
-![Schermata del gioco](https://github.com/user-attachments/assets/5d68544e-9df2-4678-8dfb-18e84cb7e000)
+![Schermata del gioco](https://github.com/user-attachments/assets/ae69b82f-bc4d-4e6c-aa61-2c57ce95964a)
 
 ## Indice
 
