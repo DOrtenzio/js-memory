@@ -2,6 +2,8 @@
 
 ![Schermata del gioco](https://github.com/user-attachments/assets/ae69b82f-bc4d-4e6c-aa61-2c57ce95964a)
 
+[Gioca online](PlayingMemory.fwh.is)
+
 ## Indice
 
 - [Descrizione](#descrizione)
