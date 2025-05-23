@@ -77,17 +77,46 @@ h1 {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.8); /* Semi trasparente nero */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.8); /* Sfondo semi trasparente */
   display: none; /* Inizialmente nascosto */
+  flex-direction: column; /* Allinea gli elementi uno sotto l'altro */
+  align-items: center; /* Centra orizzontalmente */
+  justify-content: center; /* Centra verticalmente */
+  z-index: 9999;
 }
+
 
 #overlay-vittoria img {
   max-width: 80%;
   max-height: 80%;
   border: 5px solid white;
   border-radius: 10px;
+}
+
+button {
+  width: max-content;
+  height: 40px;
+  margin-top: 15px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#restart-button{
+  background-color: #ea6126;
+  color: white;
+}
+
+#restart-button:hover {
+  background-color: #d95f24; /* Colore al passaggio del mouse */
+}
+
+#layout-button{
+  background-color: #4CAF50; /* Verde */
+  color: white;
+}
+#layout-button:hover {
+  background-color: #45a049; /* Colore al passaggio del mouse */
 }

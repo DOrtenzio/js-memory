@@ -4,6 +4,14 @@
 const tabellone = document.getElementById("game-board");
 const gameBoard = document.getElementById('game-board');
 const counter = document.getElementById('counter');
+const emojiArray = [
+  "🐶", "🐱", "🦊", "🐻", "🐼", "🐨", "🐯", "🦁", "🐮", "🐷",
+  "🐸", "🐵", "🐔", "🐧", "🐦", "🐤", "🦆", "🦅", "🦉", "🦇",
+  "🐺", "🐗", "🐴", "🦄", "🐝", "🐛", "🦋", "🐌", "🐞", "🐜",
+  "🕷️", "🦂", "🐢", "🐍", "🦎", "🦖", "🦕", "🐙", "🦑", "🦐",
+  "🦞", "🦀", "🐡", "🐠", "🐟", "🐬", "🐳", "🐋", "🦈", "🐊"
+];
+
 
 // Variabili per il punteggio e il numero di coppie trovate
 let coppieTrovate = 0;
@@ -16,10 +24,23 @@ let bloccaTabellone = false;
 
 // Genera array di coppie di numeri casuali per una matrice quadrata di lato N
 function generaArrayCoppie(lato) {
+  const numCoppie = (lato * lato) / 2;
+
+  if (numCoppie > 49) {
+    alert("Massimo 49 coppie consentite (max 98 carte). Riduci la dimensione della griglia.");
+    location.reload(); // oppure return [];
+  }
+
+  const simboliDisponibili = emojiArray.slice(0, numCoppie);
   const matriceValori = [];
-  for(let i = 1; i <= ((lato * lato) / 2); i++) matriceValori.push(i, i); // Ogni valore due volte
-  return matriceValori.sort(() => 0.5 - Math.random()); // Mischia l'array
+
+  simboliDisponibili.forEach(emoji => {
+    matriceValori.push(emoji, emoji); // Ogni emoji due volte
+  });
+
+  return matriceValori.sort(() => 0.5 - Math.random()); // Mischia
 }
+
 
 function creaTabellone(lato) {
   const gameBoard = document.getElementById('game-board');
@@ -43,7 +64,7 @@ function giraCarta() {
   if (this === primaCarta) return; // Non permette di cliccare due volte la stessa carta
   
   this.classList.add("girata"); // Aggiunge la classe per girare la carta visibilmente
-  this.textContent = this.dataset.simbolo; // Mostra il "simbolo" della carta --> numero
+  this.textContent = this.dataset.simbolo;
 
   if (!primaCarta) { // Se non c'è una carta selezionata
     primaCarta = this;
@@ -105,12 +126,25 @@ function mostraOverlayVittoria() {
   overlay.style.display = 'flex';
 }
 
+function chiudiOverlayVittoria() {
+  const overlay = document.getElementById('overlay-vittoria');
+  overlay.style.display = 'none';
+  // Reset del gioco
+  coppieTrovate = 0;
+  aggiornaCounter();
+  creaTabellone(lato);
+}
+
+function chiudiModificaLayout(){
+  location.reload();
+}
+
 
 // Chiedi il lato della matrice e avvia il gioco
 let lato = 0;
 do {
   lato = parseInt(prompt("Inserisci il lato della matrice quadrata (deve essere pari): "));
-} while (isNaN(lato) || lato % 2 !== 0 || lato < 2); // Deve essere un numero pari e maggiore di 2
+} while (isNaN(lato) || lato % 2 !== 0 || lato < 2 || (lato * lato) / 2 > 49);
 coppieTotali = (lato * lato) / 2; // Calcola il numero totale di coppie
 
 creaTabellone(lato);
