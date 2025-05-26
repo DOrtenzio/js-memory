@@ -131,8 +131,8 @@ function aggiornaCounter(valContatore) {
     coppieTrovate=0; // Inizializza il contatore all'avvio del gioco
   }else{
     coppieTrovate+=valContatore;
-    counter.textContent = `Coppie trovate: ${coppieTrovate} / ${coppieTotali}`;
   }
+  counter.textContent = `Coppie trovate: ${coppieTrovate} / ${coppieTotali}`;
 }
 
 /*Overlay Vittoria*/
