@@ -21,6 +21,18 @@ let secondaCarta = null;
 let bloccaTabellone = false;
 
 
+/*MAIN*/
+
+// Chiedi il lato della matrice e avvia il gioco
+let lato = 0;
+do {
+  lato = parseInt(prompt("Inserisci il lato della matrice quadrata (deve essere pari): "));
+} while (isNaN(lato) || lato % 2 !== 0 || lato < 2 || (lato * lato) / 2 > 49);
+coppieTotali = (lato * lato) / 2; // Calcola il numero totale di coppie
+
+creaTabellone(lato);
+aggiornaCounter(); // Inizializza il contatore all'avvio del gioco
+
 
 /*CREAZIONE DELLE CARTE E DELLA TABELLA*/
 function creaTabellone(lato){
@@ -85,7 +97,7 @@ function controllaCoppia() {
       disabilitaCarte();
       aggiornaCounter(); // Aggiorna il contatore anche nel html
       if (coppieTrovate === coppieTotali) {
-        mostraOverlayVittoria(); // FIne partita
+        mostraOverlayVittoria(); // Fine partita
       }
     } else {
       rigiraCarte();
@@ -139,16 +151,3 @@ function chiudiOverlayVittoria() {
 function chiudiModificaLayout(){
   location.reload();
 }
-
-
-// Chiedi il lato della matrice e avvia il gioco
-let lato = 0;
-do {
-  lato = parseInt(prompt("Inserisci il lato della matrice quadrata (deve essere pari): "));
-} while (isNaN(lato) || lato % 2 !== 0 || lato < 2 || (lato * lato) / 2 > 49);
-coppieTotali = (lato * lato) / 2; // Calcola il numero totale di coppie
-
-creaTabellone(lato);
-
-// Inizializza il contatore all'avvio del gioco
-aggiornaCounter();
