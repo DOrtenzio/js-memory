@@ -31,7 +31,7 @@ do {
 coppieTotali = (lato * lato) / 2; // Calcola il numero totale di coppie
 
 creaTabellone(lato);
-aggiornaCounter(); // Inizializza il contatore all'avvio del gioco
+aggiornaCounter(0); // Inizializza il contatore all'avvio del gioco
 
 
 /*CREAZIONE DELLE CARTE E DELLA TABELLA*/
@@ -95,7 +95,7 @@ function controllaCoppia() {
   else{
     if (primaCarta.dataset.simbolo == secondaCarta.dataset.simbolo) {
       disabilitaCarte();
-      aggiornaCounter(); // Aggiorna il contatore anche nel html
+      aggiornaCounter(1); // Aggiorna il contatore anche nel html
       if (coppieTrovate === coppieTotali) {
         mostraOverlayVittoria(); // Fine partita
       }
@@ -128,8 +128,8 @@ function resettaTabellone() {
   bloccaTabellone = false;
 }
 
-function aggiornaCounter() {
-  coppieTrovate++;
+function aggiornaCounter(valContatore) {
+  coppieTrovate+= valContatore;
   counter.textContent = `Coppie trovate: ${coppieTrovate} / ${coppieTotali}`;
 }
 
