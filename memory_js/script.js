@@ -13,6 +13,7 @@ const emojiArray = [
 // Variabili per il punteggio e il numero di coppie trovate
 let coppieTrovate = 0;
 let coppieTotali=0; 
+let simboli;
 // Variabili per le carte
 let primaCarta = null;
 let secondaCarta = null;
@@ -34,8 +35,21 @@ aggiornaCounter(-1); // Inizializza il contatore all'avvio del gioco
 
 /*CREAZIONE DELLE CARTE E DELLA TABELLA*/
 function creaTabellone(lato){
-  creaCarte(lato); // Crea le carte con i simboli
   posizionaCarte(lato); // Crea il tabellone con le carte
+}
+
+function posizionaCarte(lato) {
+  gameBoard.style.gridTemplateColumns = `repeat(${lato}, 1fr)`; // Imposta le colonne
+  gameBoard.innerHTML = ''; // Pulisce l'html in caso di avanzi
+
+  simboli = creaCarte(lato); // Genera simboli casuali
+  for (let i = 0; i < lato * lato; i++) {
+    const carta = document.createElement('div');
+    carta.classList.add('carta'); // Classe generica per lo stile
+    carta.dataset.simbolo = simboli[i]; // utilizzati per memorizzare informazioni personalizzate direttamente negli elementi HTML.
+    carta.addEventListener('click', giraCarta); // Aggiunge il listener per girare la carta
+    gameBoard.appendChild(carta);
+  }
 }
 
 function creaCarte(lato) {
@@ -54,19 +68,7 @@ function creaCarte(lato) {
   return matriceValori.sort(() => 0.5 - Math.random()); // Mischia casualmente l'array e lo restituisce
 }
 
-function posizionaCarte(lato) {
-  gameBoard.style.gridTemplateColumns = `repeat(${lato}, 1fr)`; // Imposta le colonne
-  gameBoard.innerHTML = ''; // Pulisce l'html in caso di avanzi
 
-  const simboli = creaCarte(lato); // Genera simboli casuali
-  for (let i = 0; i < lato * lato; i++) {
-    const carta = document.createElement('div');
-    carta.classList.add('carta'); // Classe generica per lo stile
-    carta.dataset.simbolo = simboli[i]; // utilizzati per memorizzare informazioni personalizzate direttamente negli elementi HTML.
-    carta.addEventListener('click', giraCarta); // Aggiunge il listener per girare la carta
-    gameBoard.appendChild(carta);
-  }
-}
 
 
 
@@ -135,7 +137,10 @@ function aggiornaCounter(valContatore) {
   counter.textContent = `Coppie trovate: ${coppieTrovate} / ${coppieTotali}`;
 }
 
+
+
 /*Overlay Vittoria*/
+
 function mostraOverlayVittoria() {
   const overlay = document.getElementById('overlay-vittoria');
   overlay.style.display = 'flex';
