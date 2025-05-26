@@ -1,7 +1,6 @@
 "use strict"
 
-//Valori generali
-const tabellone = document.getElementById("game-board");
+/*VALORI GENERALI*/
 const gameBoard = document.getElementById('game-board');
 const counter = document.getElementById('counter');
 const emojiArray = [
@@ -12,7 +11,6 @@ const emojiArray = [
   "🦞", "🦀", "🐡", "🐠", "🐟", "🐬", "🐳", "🐋", "🦈", "🐊"
 ];
 
-
 // Variabili per il punteggio e il numero di coppie trovate
 let coppieTrovate = 0;
 let coppieTotali=0; 
@@ -22,8 +20,15 @@ let primaCarta = null;
 let secondaCarta = null;
 let bloccaTabellone = false;
 
-// Genera array di coppie di numeri casuali per una matrice quadrata di lato N
-function generaArrayCoppie(lato) {
+
+
+/*CREAZIONE DELLE CARTE E DELLA TABELLA*/
+function creaTabellone(lato){
+  creaCarte(lato); // Crea le carte con i simboli
+  posizionaCarte(lato); // Crea il tabellone con le carte
+}
+
+function creaCarte(lato) {
   const numCoppie = (lato * lato) / 2; // Calcola il numero di coppie necessarie in base al lato della matrice
   if (numCoppie > 49) { 
     alert("Massimo 49 coppie consentite (max 98 carte). Riduci la dimensione della griglia.");
@@ -39,11 +44,11 @@ function generaArrayCoppie(lato) {
   return matriceValori.sort(() => 0.5 - Math.random()); // Mischia casualmente l'array e lo restituisce
 }
 
-function creaTabellone(lato) {
+function posizionaCarte(lato) {
   gameBoard.style.gridTemplateColumns = `repeat(${lato}, 1fr)`; // Imposta le colonne
-  gameBoard.innerHTML = ''; // Pulisce il tabellone
+  gameBoard.innerHTML = ''; // Pulisce l'html in caso di avanzi
 
-  const simboli = generaArrayCoppie(lato); // Genera simboli casuali
+  const simboli = creaCarte(lato); // Genera simboli casuali
   for (let i = 0; i < lato * lato; i++) {
     const carta = document.createElement('div');
     carta.classList.add('carta'); // Classe generica per lo stile
@@ -53,6 +58,9 @@ function creaTabellone(lato) {
   }
 }
 
+
+
+/*FUNZIONI PER AZIONI IN GAME*/
 function giraCarta() {
   if (bloccaTabellone) return; // Non permette di cliccare se il tabellone è bloccato (Blocco attivato da due carte girate)
   if (this === primaCarta) return; // Non permette di cliccare due volte la stessa carta
@@ -71,19 +79,19 @@ function giraCarta() {
 }
 
 function controllaCoppia() {
-  let coppia = primaCarta.dataset.simbolo === secondaCarta.dataset.simbolo;
-
-  if (coppia) {
-    disabilitaCarte();
-    coppieTrovate++; // Incrementa il contatore delle coppie trovate
-    aggiornaCounter(); // Aggiorna il contatore nel DOM
-
-    if (coppieTrovate === coppieTotali) {
-      mostraOverlayVittoria(); // <-- nuova funzione
+  if (!primaCarta || !secondaCarta) return; // Se non ci sono due carte selezionate, esce dalla funzione
+  else{
+    if (primaCarta.dataset.simbolo == secondaCarta.dataset.simbolo) {
+      disabilitaCarte();
+      aggiornaCounter(); // Aggiorna il contatore anche nel html
+      if (coppieTrovate === coppieTotali) {
+        mostraOverlayVittoria(); // FIne partita
+      }
+    } else {
+      rigiraCarte();
     }
-  } else {
-    rigiraCarte();
   }
+  
 }
 
 function disabilitaCarte() {
@@ -108,12 +116,12 @@ function resettaTabellone() {
   bloccaTabellone = false;
 }
 
-// Aggiorna il contatore
 function aggiornaCounter() {
-  const counter = document.getElementById('counter');
+  coppieTrovate++;
   counter.textContent = `Coppie trovate: ${coppieTrovate} / ${coppieTotali}`;
 }
 
+/*Overlay Vittoria*/
 function mostraOverlayVittoria() {
   const overlay = document.getElementById('overlay-vittoria');
   overlay.style.display = 'flex';
