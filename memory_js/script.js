@@ -10,11 +10,9 @@ const emojiArray = [
   "🕷️", "🦂", "🐢", "🐍", "🦎", "🦖", "🦕", "🐙", "🦑", "🦐",
   "🦞", "🦀", "🐡", "🐠", "🐟", "🐬", "🐳", "🐋", "🦈", "🐊"
 ];
-
 // Variabili per il punteggio e il numero di coppie trovate
 let coppieTrovate = 0;
 let coppieTotali=0; 
-
 // Variabili per le carte
 let primaCarta = null;
 let secondaCarta = null;
@@ -129,10 +127,10 @@ function resettaTabellone() {
 }
 
 function aggiornaCounter(valContatore) {
-  if (valContatore === -1) {
-    coppieTrovate = 0; // Inizializza il contatore all'avvio del gioco
+  if (valContatore == -1) {
+    coppieTrovate=0; // Inizializza il contatore all'avvio del gioco
   }else{
-    coppieTrovate+= valContatore;
+    coppieTrovate+=valContatore;
     counter.textContent = `Coppie trovate: ${coppieTrovate} / ${coppieTotali}`;
   }
 }
