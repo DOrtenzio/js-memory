@@ -31,7 +31,7 @@ do {
 coppieTotali = (lato * lato) / 2; // Calcola il numero totale di coppie
 
 creaTabellone(lato);
-aggiornaCounter(0); // Inizializza il contatore all'avvio del gioco
+aggiornaCounter(-1); // Inizializza il contatore all'avvio del gioco
 
 
 /*CREAZIONE DELLE CARTE E DELLA TABELLA*/
@@ -129,8 +129,12 @@ function resettaTabellone() {
 }
 
 function aggiornaCounter(valContatore) {
-  coppieTrovate+= valContatore;
-  counter.textContent = `Coppie trovate: ${coppieTrovate} / ${coppieTotali}`;
+  if (valContatore === -1) {
+    coppieTrovate = 0; // Inizializza il contatore all'avvio del gioco
+  }else{
+    coppieTrovate+= valContatore;
+    counter.textContent = `Coppie trovate: ${coppieTrovate} / ${coppieTotali}`;
+  }
 }
 
 /*Overlay Vittoria*/
@@ -143,8 +147,7 @@ function chiudiOverlayVittoria() {
   const overlay = document.getElementById('overlay-vittoria');
   overlay.style.display = 'none';
   // Reset del gioco
-  coppieTrovate = 0;
-  aggiornaCounter();
+  aggiornaCounter(-1);
   creaTabellone(lato);
 }
 
