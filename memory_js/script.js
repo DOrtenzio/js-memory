@@ -24,57 +24,50 @@ let bloccaTabellone = false;
 
 // Genera array di coppie di numeri casuali per una matrice quadrata di lato N
 function generaArrayCoppie(lato) {
-  const numCoppie = (lato * lato) / 2;
-
-  if (numCoppie > 49) {
+  const numCoppie = (lato * lato) / 2; // Calcola il numero di coppie necessarie in base al lato della matrice
+  if (numCoppie > 49) { 
     alert("Massimo 49 coppie consentite (max 98 carte). Riduci la dimensione della griglia.");
-    location.reload(); // oppure return [];
+    chiudiModificaLayout();
   }
 
-  const simboliDisponibili = emojiArray.slice(0, numCoppie);
+  const simboliDisponibili = emojiArray.slice(0, numCoppie); // Prende i primi `numCoppie` simboli dall'array di emoji
+  // Inizializza un array vuoto per contenere i simboli duplicati
   const matriceValori = [];
-
-  simboliDisponibili.forEach(emoji => {
-    matriceValori.push(emoji, emoji); // Ogni emoji due volte
-  });
-
-  return matriceValori.sort(() => 0.5 - Math.random()); // Mischia
+  for (let element of simboliDisponibili) {
+    matriceValori.push(element, element); // Aggiunge ogni simbolo due volte per creare le coppie
+  }
+  return matriceValori.sort(() => 0.5 - Math.random()); // Mischia casualmente l'array e lo restituisce
 }
 
-
 function creaTabellone(lato) {
-  const gameBoard = document.getElementById('game-board');
   gameBoard.style.gridTemplateColumns = `repeat(${lato}, 1fr)`; // Imposta le colonne
   gameBoard.innerHTML = ''; // Pulisce il tabellone
 
   const simboli = generaArrayCoppie(lato); // Genera simboli casuali
-
   for (let i = 0; i < lato * lato; i++) {
     const carta = document.createElement('div');
-    carta.classList.add('carta'); // Classe generica per lo stile, puoi rimuovere 'disabilitata' se non serve
-    carta.dataset.index = i;
-    carta.dataset.simbolo = simboli[i]; // Assegna simbolo
+    carta.classList.add('carta'); // Classe generica per lo stile
+    carta.dataset.simbolo = simboli[i]; // utilizzati per memorizzare informazioni personalizzate direttamente negli elementi HTML.
     carta.addEventListener('click', giraCarta); // Aggiunge il listener per girare la carta
     gameBoard.appendChild(carta);
   }
 }
 
 function giraCarta() {
-  if (bloccaTabellone) return; // Non permette di cliccare se il tabellone è bloccato
+  if (bloccaTabellone) return; // Non permette di cliccare se il tabellone è bloccato (Blocco attivato da due carte girate)
   if (this === primaCarta) return; // Non permette di cliccare due volte la stessa carta
   
-  this.classList.add("girata"); // Aggiunge la classe per girare la carta visibilmente
+  this.classList.add("girata"); // Aggiunge la classe css per girare la carta visibilmente
   this.textContent = this.dataset.simbolo;
 
   if (!primaCarta) { // Se non c'è una carta selezionata
     primaCarta = this;
-    return;
+  } else { // Se c'è già una carta selezionata
+    secondaCarta = this;
+    bloccaTabellone = true;
+    controllaCoppia();
   }
-
-  secondaCarta = this;
-  bloccaTabellone = true;
-
-  controllaCoppia();
+  return;
 }
 
 function controllaCoppia() {
